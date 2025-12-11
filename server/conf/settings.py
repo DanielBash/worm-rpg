@@ -34,6 +34,13 @@ from evennia.settings_default import *
 # This is the name of your game. Make it catchy!
 SERVERNAME = "worm-rpg"
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
+
+ALLOWED_HOSTS = ['worm.ibashlhr.beget.tech', 'localhost', '127.0.0.1']
+
+WEBSOCKET_CLIENT_URL = "wss://worm.ibashlhr.beget.tech/ws"
 
 ######################################################################
 # Settings given in secret_settings.py override those in this file.
