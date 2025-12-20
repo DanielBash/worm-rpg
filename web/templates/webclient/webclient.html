@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html dir="ltr" lang="en">
+<head>
+  <title>{{ game_name }}</title>
+
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+  <meta name="author" content="Evennia" />
+  <meta name="generator" content="Evennia" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap (kept for grid & inputs only) -->
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+
+  <!-- Base Evennia styles -->
+  <link rel="stylesheet" href="{% static 'webclient/css/webclient.css' %}">
+
+  <!-- Your clean override -->
+  <link rel="stylesheet" href="{% static 'webclient/css/custom.css' %}">
+
+  <link rel="icon" href="/static/website/images/evennia_logo.png" />
+
+  {% block jquery_import %}
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  {% endblock %}
+
+  <script>
+    if (!window.jQuery) {
+      document.write("<div class='err'>jQuery failed to load.</div>");
+    }
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      $('#noscript').remove();
+      $('#clientwrapper').removeClass('d-none');
+    });
+  </script>
+
+  <script>
+    function generateUID() {
+      return Math.random().toString(36).substr(2) +
+             Math.random().toString(36).substr(2);
+    }
+    var cuid = generateUID();
+  </script>
+
+  <!-- WebSocket setup -->
+  <script>
+    var wsactive = {{ websocket_enabled|yesno:"true,false" }};
+    var csessid = "{{ browser_sessid|default:'false' }}";
+    var wsurl = "{{ websocket_url|default:'' }}";
+  </script>
+
+  <!-- Evennia core -->
+  <script src="{% static 'webclient/js/evennia.js' %}"></script>
+
+  {% block guilib_import %}
+  <script src="{% static 'webclient/js/webclient_gui.js' %}"></script>
+
+  <!-- Essential plugins -->
+  <script src="{% static 'webclient/js/plugins/message_routing.js' %}"></script>
+  <script src="{% static 'webclient/js/plugins/history.js' %}"></script>
+  <script src="{% static 'webclient/js/plugins/oob.js' %}"></script>
+  <script src="{% static 'webclient/js/plugins/notifications.js' %}"></script>
+  <script src="{% static 'webclient/js/plugins/font.js' %}"></script>
+  <script src="{% static 'webclient/js/plugins/default_in.js' %}"></script>
+  <script src="{% static 'webclient/js/plugins/default_out.js' %}"></script>
+  <script src="{% static 'webclient/js/plugins/text2html.js' %}"></script>
+  {% endblock %}
+
+  <!-- Bootstrap JS (no animations used) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div id="noscript" class="err">
+  <h3>Javascript required</h3>
+</div>
+
+<div id="clientwrapper" class="d-none">
+
+  <!-- Optional minimal toolbar -->
+  <div id="toolbar"></div>
+
+  <!-- Output -->
+  <main id="main">
+    <div id="messagewindow"></div>
+  </main>
+
+  <!-- Input -->
+  <footer id="input">
+    <div id="prompt"></div>
+    <div id="inputcontrol">
+      <textarea id="inputfield" rows="1"></textarea>
+      <button id="inputsend">&gt;</button>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+<script>
+(function () {
+  const output = document.getElementById("main");
+
+  if (!output) return;
+
+  let autoScroll = true;
+
+  // Detect manual scrolling
+  output.addEventListener("scroll", () => {
+    const atBottom =
+      output.scrollTop + output.clientHeight >= output.scrollHeight - 10;
+    autoScroll = atBottom;
+  });
+
+  // Observe output changes
+  const observer = new MutationObserver(() => {
+    if (autoScroll) {
+      output.scrollTop = output.scrollHeight;
+    }
+  });
+
+  observer.observe(output, {
+    childList: true,
+    subtree: true,
+  });
+})();
+</script>
+
+</html>
