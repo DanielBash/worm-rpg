@@ -19,22 +19,25 @@ are defined in evennia.default_cmds.UnloggedinCmdSet. The parsing and display
 of the screen is done by the unlogged-in "look" command.
 
 """
-
 from django.conf import settings
 
 from evennia import utils
 
-CONNECTION_SCREEN = """
-|b==============================================================|n
- Welcome to |g{}|n, version {}!
+CONNECTION_SCREEN = """|b==============================================================|n
+ Добро пожаловать в |g{}|n, версия {}!
 
- If you have an existing account, connect to it by typing:
-      |wconnect <username> <password>|n
- If you need to create an account, type (without the <>'s):
-      |wcreate <username> <password>|n
+ Если у вас уже есть учётная запись, подключитесь к ней, набрав:
+      |wconnect <имя_пользователя> <пароль>|n
+ Если вам нужно создать учётную запись, введите (без <>):
+      |wcreate <имя_пользователя> <пароль>|n
 
- If you have spaces in your username, enclose it in quotes.
- Enter |whelp|n for more info. |wlook|n will re-show this screen.
-|b==============================================================|n""".format(
-    settings.SERVERNAME, utils.get_evennia_version("short")
-)
+ Если в имени пользователя есть пробелы, заключите его в кавычки.
+ Введите |whelp|n для получения справки. |wlook|n снова покажет этот экран.
+|b==============================================================|n"""
+
+
+def connection_screen():
+    return CONNECTION_SCREEN.format(
+        settings.SERVERNAME,
+        utils.get_evennia_version("short")
+    )

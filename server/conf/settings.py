@@ -1,6 +1,6 @@
 from evennia.settings_default import *
 
-SERVERNAME = "worm-rpg"
+SERVERNAME = "online-mmorpg"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
