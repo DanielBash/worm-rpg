@@ -1,6 +1,6 @@
 from evennia.settings_default import *
 
-SERVERNAME = "Онлайн РПГ"
+SERVERNAME = "ММОРПГ"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
